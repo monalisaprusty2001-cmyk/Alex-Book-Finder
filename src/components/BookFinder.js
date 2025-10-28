@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import sampleData from "../data/sampleData";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./BookFinder.css";
 
 function BookFinder() {
   const [query, setQuery] = useState("");
@@ -21,9 +22,9 @@ function BookFinder() {
   };
 
   const handleSearch = async (e) => {
-    if (e) e.preventDefault();
+    e.preventDefault();
     if (!query.trim() && !useSample) {
-      alert("Please enter a book title to search (or check 'Use sample data').");
+      alert("Please enter a book title or use sample data!");
       return;
     }
 
@@ -34,41 +35,43 @@ function BookFinder() {
 
     setLoading(true);
     try {
-      const url = `https://openlibrary.org/search.json?title=${encodeURIComponent(query)}`;
+      const url = `https://openlibrary.org/search.json?title=${encodeURIComponent(
+        query
+      )}`;
       const res = await fetch(url);
-      if (!res.ok) throw new Error("API error");
       const data = await res.json();
       setBooks(data.docs || []);
-    } catch (err) {
-      console.error(err);
-      alert("Could not fetch from API. Try sample data instead.");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to fetch books. Try again later!");
     } finally {
       setLoading(false);
     }
   };
 
-  const getCover = (cover_i) => {
-    return cover_i
+  const getCover = (cover_i) =>
+    cover_i
       ? `https://covers.openlibrary.org/b/id/${cover_i}-M.jpg`
       : "https://via.placeholder.com/180x260?text=No+Cover";
-  };
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div className="bookfinder-dark d-flex flex-column min-vh-100">
       {/* Navbar */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <nav className="navbar navbar-expand-lg navbar-dark glass-nav shadow-sm">
         <div className="container">
-          <span className="navbar-brand fw-bold">📚 Alex’s Book Finder</span>
+          <span className="navbar-brand fw-bold neon-text">📚 Alex’s Book Finder</span>
           <div className="d-flex">
             <button
-              className="btn btn-light btn-sm me-2"
+              className="btn btn-outline-light btn-sm me-2"
               onClick={() => window.location.reload()}
             >
               Home
             </button>
             <button
-              className="btn btn-outline-light btn-sm me-2"
-              onClick={() => alert(`Profile: ${localStorage.getItem("alex_user")}`)}
+              className="btn btn-outline-info btn-sm me-2"
+              onClick={() =>
+                alert(`Profile: ${localStorage.getItem("alex_user")}`)
+              }
             >
               Profile
             </button>
@@ -79,58 +82,62 @@ function BookFinder() {
         </div>
       </nav>
 
-      {/* Main content */}
-      <div className="container py-4 flex-grow-1">
-        <h4 className="mb-3">Welcome, {localStorage.getItem("alex_user")} 👋</h4>
-        <form onSubmit={handleSearch} className="mb-4">
-          <div className="input-group">
-            <input
-              className="form-control"
-              placeholder="Search for a book title..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button className="btn btn-primary" type="submit">
-              {loading ? "Searching..." : "Search"}
-            </button>
-          </div>
-          <div className="form-check mt-2">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="sampleCheck"
-              checked={useSample}
-              onChange={(e) => setUseSample(e.target.checked)}
-            />
-            <label className="form-check-label" htmlFor="sampleCheck">
-              Use sample data (demo)
-            </label>
-          </div>
-        </form>
+      {/* Search Section */}
+      <div className="container py-5 flex-grow-1">
+        <div className="search-box-dark p-4 mx-auto mb-5 rounded shadow-lg text-center">
+          <h2 className="fancy-title mb-4">✨ Find Your Next Read ✨</h2>
+          <form onSubmit={handleSearch}>
+            <div className="input-group input-group-lg">
+              <input
+                className="form-control dark-input highlight-input"
+                placeholder="🔍 Search for a book title..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <button className="btn btn-neon" type="submit">
+                {loading ? "Searching..." : "Search"}
+              </button>
+            </div>
+            <div className="form-check mt-3 text-center">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="sampleCheck"
+                checked={useSample}
+                onChange={(e) => setUseSample(e.target.checked)}
+              />
+              <label className="form-check-label ms-2 text-light" htmlFor="sampleCheck">
+                Use sample data (demo)
+              </label>
+            </div>
+          </form>
+        </div>
 
-        {/* Books Grid */}
-        <div className="row">
-          {books.length === 0 && (
-            <div className="col-12 text-center text-muted">
-              <p>No results found.</p>
+        {/* Book Cards */}
+        <div className="row g-4">
+          {books.length === 0 && !loading && (
+            <div className="col-12 text-center text-secondary">
+              <p>No books to display yet. Try searching something!</p>
             </div>
           )}
           {books.map((book, idx) => (
-            <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={idx}>
-              <div className="card h-100 shadow-sm border-0">
+            <div className="col-sm-6 col-md-4 col-lg-3" key={idx}>
+              <div className="card h-100 border-0 shadow-sm book-card-dark">
                 <img
                   src={getCover(book.cover_i)}
                   className="card-img-top"
                   alt={book.title}
                   style={{ height: 260, objectFit: "cover" }}
                 />
-                <div className="card-body d-flex flex-column">
-                  <h6 className="card-title">{book.title}</h6>
-                  <p className="text-muted mb-2">
+                <div className="card-body text-center">
+                  <h6 className="card-title text-light">{book.title}</h6>
+                  <p className="text-secondary mb-2">
                     {book.author_name ? book.author_name.join(", ") : "Unknown"}
                   </p>
-                  <small className="text-muted mt-auto">
-                    First published: {book.first_publish_year || "N/A"}
+                  <small className="text-muted">
+                    {book.first_publish_year
+                      ? `First published: ${book.first_publish_year}`
+                      : "Year: N/A"}
                   </small>
                 </div>
               </div>
@@ -140,10 +147,8 @@ function BookFinder() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-light text-center py-3 mt-auto border-top">
-        <small className="text-muted">
-          © {new Date().getFullYear()} Alex’s Book Finder | Built with ❤️ using React + Bootstrap
-        </small>
+      <footer className="footer-dark text-center py-3 mt-auto">
+        <small>© {new Date().getFullYear()} Alex’s Book Finder — Made with 💙 in React</small>
       </footer>
     </div>
   );

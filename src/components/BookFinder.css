@@ -1,41 +1,98 @@
-.book-page {
-  min-height: 100vh;
-  background: linear-gradient(120deg, #6a11cb 0%, #2575fc 100%);
-  padding-bottom: 50px;
+/* 🌌 Dark Gradient Background */
+.bookfinder-dark {
+  background: radial-gradient(circle at top left, #0a0f1f, #141e30, #243b55);
+  color: white;
+  font-family: "Orbitron", sans-serif;
 }
 
-/* Book Cards */
-.book-card {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+/* ✨ Navbar Glass Effect */
+.glass-nav {
+  background: rgba(15, 25, 35, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.book-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+/* 💫 Title Styling */
+.fancy-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ff0080, #ff8c00, #40e0d0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+  animation: pulseGlow 2.5s infinite alternate;
 }
 
-.book-card img {
-  height: 260px;
-  width: 100%;
-  object-fit: cover;
+@keyframes pulseGlow {
+  from {
+    text-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+  }
+  to {
+    text-shadow: 0 0 25px rgba(64, 224, 208, 0.9);
+  }
 }
 
-.book-info {
-  padding: 15px;
+/* 💡 Highlight Search Input */
+.highlight-input {
+  border: 2px solid transparent;
+  background: #1a2333;
   color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
 }
 
-.book-info h6 {
+.highlight-input::placeholder {
+  color: #a0cfff;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.highlight-input:focus {
+  border-color: #40e0d0;
+  box-shadow: 0 0 15px #40e0d0;
+  background: #0e1525;
+}
+
+/* 💎 Neon Buttons */
+.btn-neon {
+  background: linear-gradient(90deg, #40e0d0, #00bcd4);
+  border: none;
+  color: white;
   font-weight: 600;
-  font-size: 1rem;
-  color: #fff;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+.btn-neon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
 }
 
-.navbar h3 {
-  color: #fff;
+/* 📚 Book Cards */
+.book-card-dark {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.book-card-dark:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(64, 224, 208, 0.4);
+}
+
+/* 🔍 Search Box */
+.search-box-dark {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  max-width: 600px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 🩵 Footer */
+.footer-dark {
+  background: rgba(15, 25, 35, 0.9);
+  color: #bbb;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: "Poppins", sans-serif;
 }
