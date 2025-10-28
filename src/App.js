@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import LoginPage from "./components/LoginPage.js";
+import BookFinder from "./components/BookFinder";
 
 function App() {
+  // simple auth check
+  const isLoggedIn = !!localStorage.getItem("alex_user");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={isLoggedIn ? <Navigate to="/search" /> : <LoginPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route
+        path="/search"
+        element={
+          isLoggedIn ? <BookFinder /> : <Navigate to="/login" />
+        }
+      />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 }
 
